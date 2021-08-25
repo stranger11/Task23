@@ -22,27 +22,20 @@ const val CITY = "minsk"
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mBinding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(mBinding.root)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initRecyclerView()
         getCurrentData()
     }
 
     private fun getCurrentData() {
-        val retrofit = Retrofit
-            .Builder()
-            .client(okkhttpClient())
-            .baseUrl(BASEURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(WeatherService::class.java)
-        val call = service.getCurrentWeatherData(CITY, APPID)
-        call.enqueue(object : Callback<WeatherResponse> {
+        weatherService().enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
                 if (response.code() == 200) {
                     val weatherResponse = response.body()!!
@@ -55,7 +48,18 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun okkhttpClient() : OkHttpClient {
+    private fun weatherService() : Call<WeatherResponse> {
+        val retrofit = Retrofit
+            .Builder()
+            .client(okHttpClient())
+            .baseUrl(BASEURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(WeatherService::class.java)
+        return service.getCurrentWeatherData(CITY, APPID)
+    }
+
+    private fun okHttpClient() : OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
@@ -63,8 +67,8 @@ class MainActivity : AppCompatActivity() {
                 .build()
     }
     private fun initRecyclerView() {
-        mBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = Adapter()
-        mBinding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
     }
 }

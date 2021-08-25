@@ -29,20 +29,23 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData, ViewHolder>(ContactItem
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private var temp: TextView = view.findViewById(R.id.temp)
+    private var temperature: TextView = view.findViewById(R.id.temp)
     private var pressure: TextView = view.findViewById(R.id.pressure)
     private var date: TextView = view.findViewById(R.id.date)
     private var icon: ImageView = view.findViewById(R.id.icon)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temp.text = item.main.temp.toString()
+        temperature.text = item.main.temp.toString()
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
-        val icon1 = item.weather.first().icon
-        val url = "https://openweathermap.org/img/wn/$icon1@2x.png"
+        val weatherIcon = item.weather.first().icon
         Glide.with(icon.context)
-            .load(url)
+            .load(getUrl(weatherIcon))
             .into(icon)
+    }
+
+    private fun getUrl(icon: String) : String {
+        return "https://openweathermap.org/img/wn/$icon@2x.png"
     }
 }
 
