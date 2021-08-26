@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Task23</string>
+    <string name="failed">Sorry, network problem, try again later..</string>
 </resources>
