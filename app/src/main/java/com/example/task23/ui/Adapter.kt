@@ -17,7 +17,7 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData, ViewHolder>(ContactItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_layout,
+            R.layout.recycler_view_item_layout,
             parent,
             false)
         return ViewHolder(view)
@@ -44,8 +44,8 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             .into(icon)
     }
 
-    private fun getUrl(icon: String) : String {
-        return "https://openweathermap.org/img/wn/$icon@2x.png"
+    private fun getUrl(iconCode: String) : String {
+        return "https://openweathermap.org/img/wn/$iconCode@2x.png"
     }
 }
 

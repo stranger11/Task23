@@ -16,9 +16,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASEURL = "https://api.openweathermap.org/"
-const val APPID = "557dc2784d5b6b18a4c40f345074e4fe"
-const val CITY = "minsk"
+private const val BASEURL = "https://api.openweathermap.org/"
+private const val APPID = "557dc2784d5b6b18a4c40f345074e4fe"
+private const val CITY = "minsk"
+private const val CODE = 200
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,20 +36,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCurrentData() {
-        weatherService().enqueue(object : Callback<WeatherResponse> {
+        callCurrentWeatherData().enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-                if (response.code() == 200) {
+                if (response.code() == CODE) {
                     val weatherResponse = response.body()!!
                     adapter.submitList(weatherResponse.list)
                 }
             }
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, R.string.failed, Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
             }
         })
     }
 
-    private fun weatherService() : Call<WeatherResponse> {
+    private fun callCurrentWeatherData() : Call<WeatherResponse> {
         val retrofit = Retrofit
             .Builder()
             .client(okHttpClient())
