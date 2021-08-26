@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASEURL = "https://api.openweathermap.org/"
 private const val APPID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
-private const val STATUS_CODE = 200
+private const val STATUS_CODE_OK = 200
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,9 +36,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCurrentData() {
-        callCurrentWeatherData().enqueue(object : Callback<WeatherResponse> {
+        getWeatherService()
+            .getCurrentWeatherData(CITY, APPID)
+            .enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
-                if (response.code() == STATUS_CODE) {
+                if (response.code() == STATUS_CODE_OK) {
                     val weatherResponse = response.body()!!
                     adapter.submitList(weatherResponse.list)
                 }
@@ -49,15 +51,15 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun callCurrentWeatherData() : Call<WeatherResponse> {
+    private fun getWeatherService() : WeatherService {
         val retrofit = Retrofit
             .Builder()
             .client(okHttpClient())
             .baseUrl(BASEURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val service = retrofit.create(WeatherService::class.java)
-        return service.getCurrentWeatherData(CITY, APPID)
+         retrofit.create(WeatherService::class.java)
+        return retrofit.create(WeatherService::class.java)
     }
 
     private fun okHttpClient() : OkHttpClient {
