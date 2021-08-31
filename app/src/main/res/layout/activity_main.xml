@@ -11,11 +11,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#939393"
+        android:background="@color/background_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Minsk" />
+        app:title="@string/toolbar_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
