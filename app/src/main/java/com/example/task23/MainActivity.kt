@@ -17,7 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASEURL = "https://api.openweathermap.org/"
-private const val APPID = "557dc2784d5b6b18a4c40f345074e4fe"
+private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val STATUS_CODE_OK = 200
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getCurrentData() {
         getWeatherService()
-            .getCurrentWeatherData(CITY, APPID)
+            .getCurrentWeatherData(CITY, APP_ID)
             .enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
                 if (response.code() == STATUS_CODE_OK) {
@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 .addInterceptor(logging)
                 .build()
     }
+
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = Adapter()
