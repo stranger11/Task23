@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@color/background_hot">
+    android:background="@color/background_cold">
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/date_cold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/icon_cold"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="32dp"
@@ -23,23 +23,23 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/temp"
+        android:id="@+id/temp_cold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_cold"
+        app:layout_constraintStart_toEndOf="@+id/imageView_cold"
+        app:layout_constraintTop_toTopOf="@+id/imageView_cold" />
 
     <TextView
-        android:id="@+id/pressure"
+        android:id="@+id/pressure_cold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guideline_cold"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_cold"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
@@ -48,17 +48,17 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView_cold"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/icon_summer"
-        app:layout_constraintBottom_toBottomOf="@+id/temp"
-        app:layout_constraintStart_toEndOf="@+id/temp"
-        app:layout_constraintTop_toTopOf="@+id/temp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icon_winter"
+        app:layout_constraintEnd_toEndOf="@id/guideline_cold"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guideline_cold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent="0.75"

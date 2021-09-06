@@ -34,14 +34,14 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData,
         return if (viewType == VIEW_COLD_WEATHER) {
             ViewHolderHot(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.recycler_view_item_layout,
+                    R.layout.hot_weather_item_layout,
                     parent,
                     false)
             )
         } else {
             ViewHolderCold(
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.recycler_view_item_layout2,
+                    R.layout.cold_weather_item_layout,
                     parent,
                     false)
             )
@@ -58,14 +58,13 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData,
 }
 
 class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
-    private var temperature: TextView = view.findViewById(R.id.temp2)
-    private var pressure: TextView = view.findViewById(R.id.pressure2)
-    private var date: TextView = view.findViewById(R.id.date2)
-    private var icon: ImageView = view.findViewById(R.id.icon2)
+    private var temperature: TextView = view.findViewById(R.id.temp_cold)
+    private var pressure: TextView = view.findViewById(R.id.pressure_cold)
+    private var date: TextView = view.findViewById(R.id.date_cold)
+    private var icon: ImageView = view.findViewById(R.id.icon_cold)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp.toString())
-        //temperature.text = item.main.temp.toString()
+        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp)
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
@@ -80,14 +79,13 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
 }
 
 class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
-    private var temperature: TextView = view.findViewById(R.id.temp)
-    private var pressure: TextView = view.findViewById(R.id.pressure)
-    private var date: TextView = view.findViewById(R.id.date)
-    private var icon: ImageView = view.findViewById(R.id.icon)
+    private var temperature: TextView = view.findViewById(R.id.temp_hot)
+    private var pressure: TextView = view.findViewById(R.id.pressure_hot)
+    private var date: TextView = view.findViewById(R.id.date_hot)
+    private var icon: ImageView = view.findViewById(R.id.icon_hot)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp.toString())
-        //temperature.text = "${item.main.temp} + ${temperature.context.getString(R.string.degree_celsius)}"
+        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp)
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
