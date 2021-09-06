@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.task23.R
 import com.example.task23.data.WeatherResponse
+import com.example.task23.ui.Adapter.Companion.getDegreeCelsius
 
 private const val DEGREE_CELSIUS = 273.15
 private const val MY_TEMP = 15
@@ -20,6 +21,9 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData, RecyclerView.ViewHolder
     companion object {
         const val VIEW_COLD_WEATHER = 1
         const val VIEW_HOT_WEATHER = 2
+        fun getDegreeCelsius(item: WeatherResponse.WeatherData) : Double {
+            return item.main.temp - DEGREE_CELSIUS
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -68,7 +72,7 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon2)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = getDegreeCelsius(item).toInt().toString()
+        temperature.text = String.format("%.1f", getDegreeCelsius(item))
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
@@ -81,11 +85,8 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
         return "https://openweathermap.org/img/wn/$iconCode@2x.png"
     }
 
-    private fun getDegreeCelsius(item: WeatherResponse.WeatherData) : Double {
-        return item.main.temp - DEGREE_CELSIUS
-    }
-}
 
+}
 
 class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var temperature: TextView = view.findViewById(R.id.temp)
@@ -94,17 +95,13 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = getDegreeCelsius(item).toInt().toString()
+        temperature.text = String.format("%.1f", getDegreeCelsius(item))
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
         Glide.with(icon.context)
             .load(getUrl(weatherIcon))
             .into(icon)
-    }
-
-    private fun getDegreeCelsius(item: WeatherResponse.WeatherData) : Double {
-        return item.main.temp - DEGREE_CELSIUS
     }
 
     private fun getUrl(iconCode: String) : String {
