@@ -1,5 +1,6 @@
 package com.example.task23.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +73,7 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon2)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = String.format("%.1f", getDegreeCelsius(item))
+        temperature.text = temperature.context.getString(R.string.format, getDegreeCelsius(item))
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
@@ -95,7 +96,7 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = String.format("%.1f", getDegreeCelsius(item))
+        temperature.text = temperature.context.getString(R.string.format, getDegreeCelsius(item))
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
