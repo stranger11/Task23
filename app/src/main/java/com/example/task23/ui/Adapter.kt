@@ -1,6 +1,5 @@
 package com.example.task23.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.task23.R
 import com.example.task23.data.WeatherResponse
-import com.example.task23.ui.Adapter.Companion.getDegreeCelsius
 
-private const val DEGREE_CELSIUS = 273.15
 private const val MY_TEMP = 15
 
 class Adapter : ListAdapter<WeatherResponse.WeatherData, RecyclerView.ViewHolder>(ContactItemDiffCallback) {
@@ -22,13 +19,10 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData, RecyclerView.ViewHolder
     companion object {
         const val VIEW_COLD_WEATHER = 1
         const val VIEW_HOT_WEATHER = 2
-        fun getDegreeCelsius(item: WeatherResponse.WeatherData) : Double {
-            return item.main.temp - DEGREE_CELSIUS
-        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(getDegreeCelsius(position) < MY_TEMP) {
+        return if(getItem(position).main.temp < MY_TEMP) {
             VIEW_COLD_WEATHER
         } else {
             VIEW_HOT_WEATHER
@@ -60,10 +54,6 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData, RecyclerView.ViewHolder
             (holder as ViewHolderCold).bind(getItem(position))
         }
     }
-
-    private fun getDegreeCelsius(position : Int) : Double {
-        return getItem(position).main.temp - DEGREE_CELSIUS
-    }
 }
 
 class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
@@ -73,7 +63,7 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon2)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = temperature.context.getString(R.string.format, getDegreeCelsius(item))
+        temperature.text = item.main.temp.toString()
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
@@ -85,8 +75,6 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private fun getUrl(iconCode: String) : String {
         return "https://openweathermap.org/img/wn/$iconCode@2x.png"
     }
-
-
 }
 
 class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
@@ -96,7 +84,7 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = temperature.context.getString(R.string.format, getDegreeCelsius(item))
+        temperature.text = item.main.temp.toString()
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon

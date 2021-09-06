@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
+private const val UNITS = "metric"
 private const val STATUS_CODE_OK = 200
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getCurrentData() {
         getWeatherService()
-            .getCurrentWeatherData(CITY, APP_ID)
+            .getCurrentWeatherData(CITY, APP_ID, UNITS)
             .enqueue(object : Callback<WeatherResponse> {
             override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
                 if (response.code() == STATUS_CODE_OK) {
