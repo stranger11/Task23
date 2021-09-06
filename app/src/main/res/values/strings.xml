@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Task23</string>
     <string name="failed">Sorry, network problem, try again later..</string>
+    <string name="toolbar_title">Minsk</string>
+    <string name="degree_celsius">%.1f °C</string>
 </resources>
