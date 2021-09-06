@@ -14,7 +14,8 @@ import com.example.task23.data.WeatherResponse
 
 private const val MY_TEMP = 15
 
-class Adapter : ListAdapter<WeatherResponse.WeatherData, RecyclerView.ViewHolder>(ContactItemDiffCallback) {
+class Adapter : ListAdapter<WeatherResponse.WeatherData,
+        RecyclerView.ViewHolder>(ContactItemDiffCallback) {
 
     companion object {
         const val VIEW_COLD_WEATHER = 1
@@ -63,7 +64,8 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon2)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = item.main.temp.toString()
+        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp.toString())
+        //temperature.text = item.main.temp.toString()
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon
@@ -84,7 +86,8 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var icon: ImageView = view.findViewById(R.id.icon)
 
     fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = item.main.temp.toString()
+        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp.toString())
+        //temperature.text = "${item.main.temp} + ${temperature.context.getString(R.string.degree_celsius)}"
         pressure.text = item.main.pressure.toString()
         date.text = item.dtTxt
         val weatherIcon = item.weather.first().icon

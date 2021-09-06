@@ -47,23 +47,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/degreeCelsius"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/degree_celsius"
-        app:layout_constraintBottom_toBottomOf="@+id/temp"
-        app:layout_constraintStart_toEndOf="@+id/temp"
-        app:layout_constraintTop_toTopOf="@+id/temp" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/icon_summer"
-        app:layout_constraintBottom_toBottomOf="@+id/degreeCelsius"
-        app:layout_constraintStart_toEndOf="@+id/degreeCelsius"
-        app:layout_constraintTop_toTopOf="@+id/degreeCelsius"
+        app:layout_constraintBottom_toBottomOf="@+id/temp"
+        app:layout_constraintStart_toEndOf="@+id/temp"
+        app:layout_constraintTop_toTopOf="@+id/temp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.constraintlayout.widget.Guideline
