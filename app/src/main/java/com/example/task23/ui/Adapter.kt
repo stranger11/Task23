@@ -30,7 +30,6 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData, RecyclerView.ViewHolder
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_COLD_WEATHER) {
             ViewHolderHot(
