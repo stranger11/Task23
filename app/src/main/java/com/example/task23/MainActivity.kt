@@ -32,11 +32,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initRecyclerView()
         if (WeatherStore.weathers == null) {
-            initRecyclerView()
             getCurrentData()
         } else {
-            initRecyclerView()
             adapter.submitList(WeatherStore.weathers)
         }
     }
