@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         weatherInString = savedInstanceState.getString(JSON_WEATHER_KEY).toString()
-        getCurrentDataFromJson(weatherInString)
+        getJsonCurrentData(weatherInString)
     }
 
     private fun getCurrentData() {
@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getCurrentDataFromJson(weatherInJson : String) {
+    private fun getJsonCurrentData(jsonWeather : String) {
         val json = Gson()
-        val tokenForParse = object : TypeToken<MutableList<WeatherResponse.WeatherData>>() {}.type
-        weatherFromJson = json.fromJson(weatherInJson, tokenForParse)
+        val jsonToken = object : TypeToken<MutableList<WeatherResponse.WeatherData>>() {}.type
+        weatherFromJson = json.fromJson(jsonWeather, jsonToken)
         adapter.submitList(weatherFromJson)
         Toast.makeText(this, "получили из jsona", Toast.LENGTH_LONG).show()
     }
