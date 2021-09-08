@@ -36,12 +36,17 @@ class WeatherFragment : Fragment() {
     ): View {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         initRecyclerView()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
         if (WeatherStore.weathers == null) {
             getCurrentData()
         } else {
             adapter.submitList(WeatherStore.weathers)
         }
-        return binding.root
     }
 
     private fun initRecyclerView() {
@@ -88,8 +93,8 @@ class WeatherFragment : Fragment() {
             .addInterceptor(logging)
             .build()
     }
+}
 
-    object WeatherStore {
-        var weathers : List<WeatherResponse.WeatherData>? = null
-    }
+object WeatherStore {
+    var weathers : List<WeatherResponse.WeatherData>? = null
 }
