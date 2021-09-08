@@ -59,13 +59,11 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<WeatherResponse>,
                 response: Response<WeatherResponse>) {
-                for (value in okStatusCodes) {
-                    if (response.code() == value) {
-                        val weatherResponse = response.body()!!
-                        adapter.submitList(weatherResponse.list)
-                        val json = Gson()
-                        weatherInString = json.toJson(weatherResponse.list)
-                    }
+                if (response.code() in okStatusCodes) {
+                    val weatherResponse = response.body()!!
+                    adapter.submitList(weatherResponse.list)
+                    val json = Gson()
+                    weatherInString = json.toJson(weatherResponse.list)
                 }
             }
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
