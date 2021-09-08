@@ -8,6 +8,8 @@ import com.example.task23.data.WeatherResponse
 import com.example.task23.databinding.ActivityMainBinding
 import com.example.task23.retrofit.WeatherService
 import com.example.task23.ui.Adapter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: Adapter
+    private lateinit var weatherFromJson: MutableList<WeatherResponse.WeatherData>
+    private lateinit var weatherInString: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +40,45 @@ class MainActivity : AppCompatActivity() {
         getCurrentData()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        initRecyclerView()
+        getCurrentData()
+        outState.putString("JSON", weatherInString)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        weatherInString = savedInstanceState.getString("JSON").toString()
+        getCurrentDataFromJson(weatherInString)
+    }
+
     private fun getCurrentData() {
         getWeatherService()
             .getCurrentWeatherData(CITY, APP_ID, UNITS)
             .enqueue(object : Callback<WeatherResponse> {
-            override fun onResponse(call: Call<WeatherResponse>, response: Response<WeatherResponse>) {
+            override fun onResponse(
+                call: Call<WeatherResponse>,
+                response: Response<WeatherResponse>) {
                 if (response.code() == STATUS_CODE_OK) {
                     val weatherResponse = response.body()!!
                     adapter.submitList(weatherResponse.list)
+                    val json = Gson()
+                    weatherInString = json.toJson(weatherResponse.list)
                 }
             }
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun getCurrentDataFromJson(weatherInJson : String) {
+        val json = Gson()
+        val tokenForParse = object : TypeToken<MutableList<WeatherResponse.WeatherData>>() {}.type
+        weatherFromJson = json.fromJson(weatherInJson, tokenForParse)
+        adapter.submitList(weatherFromJson)
+        Toast.makeText(this, "получили из jsona", Toast.LENGTH_LONG).show()
     }
 
     private fun getWeatherService() : WeatherService {
