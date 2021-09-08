@@ -3,4 +3,6 @@
     <string name="failed">Sorry, network problem, try again later..</string>
     <string name="toolbar_title">Minsk</string>
     <string name="degree_celsius">%.1f °C</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
