@@ -37,19 +37,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initRecyclerView()
-        getCurrentData()
+        if (savedInstanceState == null) {
+            initRecyclerView()
+            getCurrentData()
+        } else {
+            weatherInString = savedInstanceState.getString(JSON_WEATHER_KEY).toString()
+            initRecyclerView()
+            getJsonCurrentData(weatherInString)
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(JSON_WEATHER_KEY, weatherInString)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        weatherInString = savedInstanceState.getString(JSON_WEATHER_KEY).toString()
-        getJsonCurrentData(weatherInString)
     }
 
     private fun getCurrentData() {
