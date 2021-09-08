@@ -22,7 +22,7 @@ private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val UNITS = "metric"
-private const val JSON_WEATHER_KEY = "JSON"
+private const val KEY_FOR_JSON_WEATHER = "JSON"
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(JSON_WEATHER_KEY, weatherInString)
+        initRecyclerView()
+        getCurrentData()
+        outState.putString(KEY_FOR_JSON_WEATHER, weatherInString)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        weatherInString = savedInstanceState.getString(JSON_WEATHER_KEY).toString()
+        weatherInString = savedInstanceState.getString(KEY_FOR_JSON_WEATHER).toString()
         getCurrentDataFromJson(weatherInString)
     }
 
