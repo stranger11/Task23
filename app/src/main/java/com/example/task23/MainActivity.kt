@@ -22,7 +22,9 @@ private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val UNITS = "metric"
-private const val STATUS_CODE_OK = 200
+private const val FIRST_STATUS_CODE_OK = 200
+private const val LAST_STATUS_CODE_OK = 299
+private const val KEY_FOR_DATA = "JSON"
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: Adapter
     private lateinit var weatherFromJson: MutableList<WeatherResponse.WeatherData>
     private lateinit var weatherInString: String
+    private val listOfOkStatusCodes = FIRST_STATUS_CODE_OK to LAST_STATUS_CODE_OK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +47,12 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         initRecyclerView()
         getCurrentData()
-        outState.putString("JSON", weatherInString)
+        outState.putString(KEY_FOR_DATA, weatherInString)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        weatherInString = savedInstanceState.getString("JSON").toString()
+        weatherInString = savedInstanceState.getString(KEY_FOR_DATA).toString()
         getCurrentDataFromJson(weatherInString)
     }
 
@@ -60,11 +63,13 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<WeatherResponse>,
                 response: Response<WeatherResponse>) {
-                if (response.code() == STATUS_CODE_OK) {
-                    val weatherResponse = response.body()!!
-                    adapter.submitList(weatherResponse.list)
-                    val json = Gson()
-                    weatherInString = json.toJson(weatherResponse.list)
+                for (value in listOfOkStatusCodes.toList()) {
+                    if (response.code() == value) {
+                        val weatherResponse = response.body()!!
+                        adapter.submitList(weatherResponse.list)
+                        val json = Gson()
+                        weatherInString = json.toJson(weatherResponse.list)
+                    }
                 }
             }
             override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
