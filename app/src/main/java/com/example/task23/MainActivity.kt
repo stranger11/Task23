@@ -22,7 +22,7 @@ private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val UNITS = "metric"
-private const val JSON_WEATHER_KEY = "JSON WEATHER KEY"
+private const val JSON_WEATHER_KEY = "JSON_WEATHER_KEY"
 
 class MainActivity : AppCompatActivity() {
 
