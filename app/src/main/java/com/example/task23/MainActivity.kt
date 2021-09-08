@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             getCurrentData()
         } else {
             initRecyclerView()
-            getJsonCurrentData()
+            adapter.submitList(WeatherStore.weathers)
         }
     }
 
@@ -58,11 +58,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
             }
         })
-    }
-
-    private fun getJsonCurrentData() {
-        adapter.submitList(WeatherStore.weathers)
-        Toast.makeText(this, "получили из jsona", Toast.LENGTH_LONG).show()
     }
 
     private fun getWeatherService() : WeatherService {
