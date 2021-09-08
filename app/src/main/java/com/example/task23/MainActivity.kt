@@ -22,18 +22,16 @@ private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val UNITS = "metric"
-private const val FIRST_STATUS_CODE_OK = 200
-private const val LAST_STATUS_CODE_OK = 299
-private const val KEY_FOR_DATA = "JSON"
+private const val KEY_FOR_JSON_WEATHER = "JSON"
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: Adapter
-    private lateinit var weatherFromJson: MutableList<WeatherResponse.WeatherData>
+    private lateinit var weatherFromJson: List<WeatherResponse.WeatherData>
     private lateinit var weatherInString: String
-    private val listOfOkStatusCodes = FIRST_STATUS_CODE_OK to LAST_STATUS_CODE_OK
+    private val okStatusCodes = 200..299
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,12 +45,12 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         initRecyclerView()
         getCurrentData()
-        outState.putString(KEY_FOR_DATA, weatherInString)
+        outState.putString(KEY_FOR_JSON_WEATHER, weatherInString)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        weatherInString = savedInstanceState.getString(KEY_FOR_DATA).toString()
+        weatherInString = savedInstanceState.getString(KEY_FOR_JSON_WEATHER).toString()
         getCurrentDataFromJson(weatherInString)
     }
 
@@ -63,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<WeatherResponse>,
                 response: Response<WeatherResponse>) {
-                for (value in listOfOkStatusCodes.toList()) {
+                for (value in okStatusCodes) {
                     if (response.code() == value) {
                         val weatherResponse = response.body()!!
                         adapter.submitList(weatherResponse.list)
