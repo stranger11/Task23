@@ -1,14 +1,16 @@
 package com.example.task23
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task23.data.WeatherResponse
 import com.example.task23.databinding.ActivityMainBinding
 import com.example.task23.retrofit.WeatherService
 import com.example.task23.ui.Adapter
-import com.example.task23.ui.WeatherFragment
+import com.example.task23.ui.WeatherViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -21,45 +23,32 @@ private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val UNITS = "metric"
-private const val WEATHER_FRAGMENT_TAG = "weather_fragment"
 
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private var weatherFragment: WeatherFragment? = null
     private lateinit var adapter: Adapter
     private val okStatusCodes = 200..299
+    private lateinit var weatherViewModel: WeatherViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initWeatherFragment()
-        if (weatherFragment?.weathers == null) {
+        weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
+        if (savedInstanceState == null) {
             initRecyclerView()
             getCurrentData()
         } else {
             initRecyclerView()
-            getWeatherFromFragment()
+            getWeatherFromViewModel()
         }
     }
 
-    private fun initWeatherFragment() {
-        weatherFragment = supportFragmentManager
-            .findFragmentByTag(WEATHER_FRAGMENT_TAG) as WeatherFragment?
-        if (weatherFragment == null) {
-            weatherFragment = WeatherFragment()
-            supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
-                weatherFragment!!,
-                WEATHER_FRAGMENT_TAG
-            ).commit()
-        }
-    }
-
-    private fun getWeatherFromFragment() {
-        adapter.submitList(weatherFragment?.weathers)
+    private fun getWeatherFromViewModel() {
+        adapter.submitList(weatherViewModel.weathers)
+        Log.d("VIEWMODEL", "получили с модели")
     }
 
     private fun getCurrentData() {
@@ -72,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     if (response.code() in okStatusCodes) {
                         val weatherResponse = response.body()!!
-                        weatherFragment?.weathers = weatherResponse.list
+                        weatherViewModel.weathers = weatherResponse.list
                         adapter.submitList(weatherResponse.list)
                     }
                 }
