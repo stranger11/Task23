@@ -35,17 +35,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initFragment()
+        initWeatherFragment()
         if (weatherFragment?.weathers == null) {
             initRecyclerView()
             getCurrentData()
         } else {
             initRecyclerView()
-            adapter.submitList(weatherFragment?.weathers)
+            getWeatherFromFragment()
         }
     }
 
-    private fun initFragment() {
+    private fun initWeatherFragment() {
         weatherFragment = supportFragmentManager
             .findFragmentByTag(WEATHER_FRAGMENT_TAG) as WeatherFragment?
         if (weatherFragment == null) {
@@ -56,6 +56,10 @@ class MainActivity : AppCompatActivity() {
                 WEATHER_FRAGMENT_TAG
             ).commit()
         }
+    }
+
+    private fun getWeatherFromFragment() {
+        adapter.submitList(weatherFragment?.weathers)
     }
 
     private fun getCurrentData() {
