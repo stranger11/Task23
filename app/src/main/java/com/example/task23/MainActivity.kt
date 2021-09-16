@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.task23.data.WeatherViewModel
 import com.example.task23.databinding.ActivityMainBinding
 import com.example.task23.ui.Adapter
+import com.example.task23.ui.WeatherViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,15 +22,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         initRecyclerView()
-        getCurrentData()
+        observeWeather()
     }
 
-    private fun getCurrentData() {
+    private fun observeWeather() {
         weatherViewModel.weathers.observe(this, Observer { weatherList ->
             adapter.submitList(weatherList)
         })
     }
-
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)

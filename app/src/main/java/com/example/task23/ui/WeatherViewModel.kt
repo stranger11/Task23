@@ -1,4 +1,4 @@
-package com.example.task23.data
+package com.example.task23.ui
 
 import android.app.Application
 import android.util.Log
@@ -6,17 +6,12 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.task23.data.ServiceProvider.getWeatherService
 import com.example.task23.data.WeatherResponse
-import com.example.task23.data.WeatherService
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASEURL = "https://api.openweathermap.org/"
 private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
 private const val CITY = "minsk"
 private const val UNITS = "metric"
@@ -52,24 +47,4 @@ class WeatherViewModel(application: Application) : AndroidViewModel(application)
                 }
             })
     }
-
-    private fun getWeatherService(): WeatherService {
-        val retrofit = Retrofit
-            .Builder()
-            .client(okHttpClient())
-            .baseUrl(BASEURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        retrofit.create(WeatherService::class.java)
-        return retrofit.create(WeatherService::class.java)
-    }
-
-    private fun okHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-        return OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-    }
-
 }
