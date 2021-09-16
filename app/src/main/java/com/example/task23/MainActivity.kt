@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task23.data.WeatherResponse
@@ -19,17 +20,11 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASEURL = "https://api.openweathermap.org/"
-private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
-private const val CITY = "minsk"
-private const val UNITS = "metric"
-
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: Adapter
-    private val okStatusCodes = 200..299
     private lateinit var weatherViewModel: WeatherViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,59 +32,16 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
-        if (savedInstanceState == null) {
-            initRecyclerView()
-            getCurrentData()
-        } else {
-            initRecyclerView()
-            getWeatherFromViewModel()
-        }
+        initRecyclerView()
+        getWeatherData()
     }
 
-    private fun getWeatherFromViewModel() {
-        adapter.submitList(weatherViewModel.weathers)
-        Log.d("VIEWMODEL", "получили с модели")
+    private fun getWeatherData() {
+        weatherViewModel.weathers.observe(this, Observer {
+            adapter.submitList(it)
+        })
     }
 
-    private fun getCurrentData() {
-        getWeatherService()
-            .getCurrentWeatherData(CITY, APP_ID, UNITS)
-            .enqueue(object : Callback<WeatherResponse> {
-                override fun onResponse(
-                    call: Call<WeatherResponse>,
-                    response: Response<WeatherResponse>
-                ) {
-                    if (response.code() in okStatusCodes) {
-                        val weatherResponse = response.body()!!
-                        weatherViewModel.weathers = weatherResponse.list
-                        adapter.submitList(weatherResponse.list)
-                    }
-                }
-
-                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                    Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
-                }
-            })
-    }
-
-    private fun getWeatherService(): WeatherService {
-        val retrofit = Retrofit
-            .Builder()
-            .client(okHttpClient())
-            .baseUrl(BASEURL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        retrofit.create(WeatherService::class.java)
-        return retrofit.create(WeatherService::class.java)
-    }
-
-    private fun okHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-        return OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-    }
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
