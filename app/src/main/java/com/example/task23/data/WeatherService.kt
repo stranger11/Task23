@@ -1,7 +1,5 @@
-package com.example.task23.retrofit
+package com.example.task23.data
 
-
-import com.example.task23.data.WeatherResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

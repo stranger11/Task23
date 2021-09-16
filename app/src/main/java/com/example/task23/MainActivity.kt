@@ -1,24 +1,13 @@
 package com.example.task23
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.task23.data.WeatherResponse
+import com.example.task23.data.WeatherViewModel
 import com.example.task23.databinding.ActivityMainBinding
-import com.example.task23.retrofit.WeatherService
 import com.example.task23.ui.Adapter
-import com.example.task23.ui.WeatherViewModel
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,12 +22,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         initRecyclerView()
-        getWeatherData()
+        getCurrentData()
     }
 
-    private fun getWeatherData() {
-        weatherViewModel.weathers.observe(this, Observer {
-            adapter.submitList(it)
+    private fun getCurrentData() {
+        weatherViewModel.weathers.observe(this, Observer { weatherList ->
+            adapter.submitList(weatherList)
         })
     }
 

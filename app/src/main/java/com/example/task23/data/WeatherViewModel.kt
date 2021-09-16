@@ -1,4 +1,4 @@
-package com.example.task23.ui
+package com.example.task23.data
 
 import android.app.Application
 import android.util.Log
@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.task23.data.WeatherResponse
-import com.example.task23.retrofit.WeatherService
+import com.example.task23.data.WeatherService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
