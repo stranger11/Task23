@@ -1,6 +1,7 @@
 package com.example.task23.data
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResponse(
@@ -40,7 +41,6 @@ data class WeatherResponse(
             val lon: Double
         )
     }
-
     data class WeatherData(
         @SerializedName("clouds")
         val clouds: Clouds,
