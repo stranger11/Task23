@@ -1,14 +1,16 @@
 package com.example.task23.data
 
 import android.content.Context
+import com.example.task23.data.database.WeatherDao
+import com.example.task23.data.database.WeatherDatabase
+import com.example.task23.data.database.WeatherEntity
+import com.example.task23.data.network.WeatherResponse
 import com.example.task23.ui.Weather
 
-class WeatherRepository(context: Context) {
-
-    private var weatherDao: WeatherDao = WeatherDatabase.getDatabase(context).weatherDao()
+class WeatherRepository(private val weatherDao: WeatherDao) {
 
     suspend fun getWeatherDatabase() : List<Weather> {
-        val weather = weatherDao.readAllData()
+        val weather = weatherDao.getData()
         return weather.map { Weather(
             temp = it.temp,
             date = it.date,
@@ -23,6 +25,6 @@ class WeatherRepository(context: Context) {
             date = it.dtTxt,
             pressure = it.main.pressure,
             icon = it.weather.first().icon) }
-        weatherDao.addWeather(weatherEntity)
+        weatherDao.insertWeather(weatherEntity)
     }
 }

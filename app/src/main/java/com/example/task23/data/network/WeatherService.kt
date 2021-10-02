@@ -1,6 +1,5 @@
-package com.example.task23.data
+package com.example.task23.data.network
 
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 

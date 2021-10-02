@@ -1,16 +1,14 @@
 package com.example.task23.ui
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.task23.App.Companion.repository
+import com.example.task23.data.APP_ID
+import com.example.task23.data.CITY
 import com.example.task23.data.ServiceProvider.getWeatherService
+import com.example.task23.data.UNITS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-private const val APP_ID = "557dc2784d5b6b18a4c40f345074e4fe"
-private const val CITY = "minsk"
-private const val UNITS = "metric"
 
 class WeatherViewModel : ViewModel() {
 
@@ -18,10 +16,8 @@ class WeatherViewModel : ViewModel() {
         MutableLiveData<List<Weather>>()
     var weathers: LiveData<List<Weather>> = _weathers
 
-
     init {
         getCurrentData()
-        Log.d("LIVEDATE", "работает")
     }
 
     private fun getCurrentData() {
@@ -46,7 +42,6 @@ class WeatherViewModel : ViewModel() {
                     _weathers.value = weather
                 }
             }
-
         }
     }
 }

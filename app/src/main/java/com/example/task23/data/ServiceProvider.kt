@@ -1,5 +1,6 @@
 package com.example.task23.data
 
+import com.example.task23.data.network.WeatherService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

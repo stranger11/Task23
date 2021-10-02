@@ -2,10 +2,8 @@ package com.example.task23
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.task23.data.WeatherEntity
 import com.example.task23.databinding.ActivityMainBinding
 import com.example.task23.ui.Adapter
 import com.example.task23.ui.WeatherViewModel

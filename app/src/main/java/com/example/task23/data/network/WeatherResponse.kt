@@ -1,7 +1,6 @@
-package com.example.task23.data
+package com.example.task23.data.network
 
 
-import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResponse(

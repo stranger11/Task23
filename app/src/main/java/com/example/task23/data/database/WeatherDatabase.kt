@@ -1,4 +1,4 @@
-package com.example.task23.data
+package com.example.task23.data.database
 
 import android.content.Context
 import androidx.room.Database
@@ -11,7 +11,6 @@ abstract class WeatherDatabase: RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
 
     companion object {
-        @Volatile
         private var inst: WeatherDatabase? = null
 
         fun getDatabase(context: Context): WeatherDatabase {
