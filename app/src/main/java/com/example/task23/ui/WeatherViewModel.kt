@@ -23,9 +23,8 @@ class WeatherViewModel : ViewModel() {
     private fun getCurrentData() {
         viewModelScope.launch(Dispatchers.IO) {
             if (repository.getWeatherDatabase().isNullOrEmpty()) {
-                val weather = getWeatherService()
-                    .getCurrentWeatherData(CITY, APP_ID, UNITS).list
-                repository.addWeather(weather)
+                val weather = repository.weather()
+                repository.addWeather(repository.weather())
                 withContext(Dispatchers.Main) {
                     _weathers.value = weather.map {
                         Weather(

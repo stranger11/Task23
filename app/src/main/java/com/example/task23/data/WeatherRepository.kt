@@ -27,4 +27,9 @@ class WeatherRepository(private val weatherDao: WeatherDao) {
             icon = it.weather.first().icon) }
         weatherDao.insertWeather(weatherEntity)
     }
+
+    suspend fun weather() : List<WeatherResponse.WeatherData>  {
+       return ServiceProvider.getWeatherService()
+            .getCurrentWeatherData(CITY, APP_ID, UNITS).list
+    }
 }
