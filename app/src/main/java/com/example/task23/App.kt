@@ -18,21 +18,12 @@ class App : Application() {
     companion object {
         lateinit var repository: WeatherRepository
         private set
-        private var inst: WeatherDatabase? = null
-        fun getDatabase(context: Context): WeatherDatabase {
-            val tempInstance = inst
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    WeatherDatabase::class.java,
-                    "task_database"
-                ).build()
-                inst = instance
-                return instance
-            }
+        private fun getDatabase(context: Context): WeatherDatabase {
+            return Room.databaseBuilder(
+                context.applicationContext,
+                WeatherDatabase::class.java,
+                "task_database"
+            ).build()
         }
     }
 }
