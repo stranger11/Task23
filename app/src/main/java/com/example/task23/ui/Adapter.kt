@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.task23.R
-import com.example.task23.data.WeatherResponse
 
 private const val MY_TEMP = 15
 
-class Adapter : ListAdapter<WeatherResponse.WeatherData,
+class Adapter : ListAdapter<Weather,
         RecyclerView.ViewHolder>(ContactItemDiffCallback) {
 
     companion object {
@@ -23,7 +22,7 @@ class Adapter : ListAdapter<WeatherResponse.WeatherData,
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(getItem(position).main.temp < MY_TEMP) {
+        return if(getItem(position).temp < MY_TEMP) {
             VIEW_COLD_WEATHER
         } else {
             VIEW_HOT_WEATHER
@@ -63,11 +62,11 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private var date: TextView = view.findViewById(R.id.date_cold)
     private var icon: ImageView = view.findViewById(R.id.icon_cold)
 
-    fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp)
-        pressure.text = item.main.pressure.toString()
-        date.text = item.dtTxt
-        val weatherIcon = item.weather.first().icon
+    fun bind(item: Weather) {
+        temperature.text = temperature.context.getString(R.string.degree_celsius, item.temp)
+        pressure.text = item.pressure.toString()
+        date.text = item.date
+        val weatherIcon = item.icon
         Glide.with(icon.context)
             .load(getUrl(weatherIcon))
             .into(icon)
@@ -84,11 +83,11 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var date: TextView = view.findViewById(R.id.date_hot)
     private var icon: ImageView = view.findViewById(R.id.icon_hot)
 
-    fun bind(item: WeatherResponse.WeatherData) {
-        temperature.text = temperature.context.getString(R.string.degree_celsius, item.main.temp)
-        pressure.text = item.main.pressure.toString()
-        date.text = item.dtTxt
-        val weatherIcon = item.weather.first().icon
+    fun bind(item: Weather) {
+        temperature.text = temperature.context.getString(R.string.degree_celsius, item.temp)
+        pressure.text = item.pressure.toString()
+        date.text = item.date
+        val weatherIcon = item.icon
         Glide.with(icon.context)
             .load(getUrl(weatherIcon))
             .into(icon)
@@ -99,12 +98,12 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
-object ContactItemDiffCallback : DiffUtil.ItemCallback<WeatherResponse.WeatherData>() {
-    override fun areItemsTheSame(oldItem: WeatherResponse.WeatherData,
-                                 newItem: WeatherResponse.WeatherData)
+object ContactItemDiffCallback : DiffUtil.ItemCallback<Weather>() {
+    override fun areItemsTheSame(oldItem: Weather,
+                                 newItem: Weather)
             : Boolean = oldItem == newItem
 
-    override fun areContentsTheSame(oldItem: WeatherResponse.WeatherData,
-                                    newItem: WeatherResponse.WeatherData)
+    override fun areContentsTheSame(oldItem: Weather,
+                                    newItem: Weather)
             : Boolean = oldItem == newItem
 }

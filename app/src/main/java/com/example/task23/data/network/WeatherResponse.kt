@@ -1,4 +1,4 @@
-package com.example.task23.data
+package com.example.task23.data.network
 
 
 import com.google.gson.annotations.SerializedName
@@ -40,7 +40,6 @@ data class WeatherResponse(
             val lon: Double
         )
     }
-
     data class WeatherData(
         @SerializedName("clouds")
         val clouds: Clouds,
