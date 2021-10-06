@@ -11,7 +11,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val weatherDao: WeatherDao = getDatabase(applicationContext).weatherDao()
+        val weatherDao = getDatabase(applicationContext).weatherDao()
         repository = WeatherRepository(weatherDao)
     }
 
