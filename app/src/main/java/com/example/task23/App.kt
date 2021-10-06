@@ -11,12 +11,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val weatherDao: WeatherDao = getDatabase(applicationContext).weatherDao()
-        repository = WeatherRepository(weatherDao)
+        weatherDao = getDatabase(applicationContext).weatherDao()
+        //repository = WeatherRepository(weatherDao)
     }
 
     companion object {
-        lateinit var repository: WeatherRepository
+        lateinit var weatherDao: WeatherDao
         private set
         private fun getDatabase(context: Context): WeatherDatabase {
             return Room.databaseBuilder(
