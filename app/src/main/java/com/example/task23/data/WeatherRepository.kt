@@ -1,11 +1,13 @@
 package com.example.task23.data
 
-import com.example.task23.App.Companion.weatherDao
+import com.example.task23.data.database.WeatherDao
 import com.example.task23.data.database.WeatherEntity
 import com.example.task23.data.network.WeatherResponse
 import com.example.task23.ui.Weather
 
-class WeatherRepository {
+class WeatherRepository(dao: WeatherDao) {
+
+    private val weatherDao = dao
 
     private suspend fun getWeatherDatabase() : List<Weather> {
         val weather = weatherDao.getData()
