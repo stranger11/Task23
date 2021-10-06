@@ -5,9 +5,7 @@ import com.example.task23.data.database.WeatherEntity
 import com.example.task23.data.network.WeatherResponse
 import com.example.task23.ui.Weather
 
-class WeatherRepository(dao: WeatherDao) {
-
-    private val weatherDao = dao
+class WeatherRepository(private val weatherDao: WeatherDao) {
 
     private suspend fun getWeatherDatabase() : List<Weather> {
         val weather = weatherDao.getData()
