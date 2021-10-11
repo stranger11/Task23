@@ -7,11 +7,11 @@ import com.example.task23.domain.WeatherRepository
 
 class WeatherRepositoryImpl(private val weatherDao: WeatherDao) : WeatherRepository {
 
-    override suspend fun getWeatherDatabase() : List<Weather> = weatherDao.getData().map {
+    private suspend fun getWeatherDatabase() : List<Weather> = weatherDao.getData().map {
         it.toDomain()
     }
 
-    override suspend fun addWeather(weather: List<WeatherResponse.WeatherData>) {
+    private suspend fun addWeather(weather: List<WeatherResponse.WeatherData>) {
         weatherDao.insertWeather(weather.map { it.toDatabase() })
     }
 
@@ -24,7 +24,7 @@ class WeatherRepositoryImpl(private val weatherDao: WeatherDao) : WeatherReposit
         } else getWeatherDatabase()
     }
 
-    override suspend fun getWeather() : List<WeatherResponse.WeatherData>  {
+    private suspend fun getWeather() : List<WeatherResponse.WeatherData>  {
        return ServiceProvider.getWeatherService()
             .getCurrentWeatherData(CITY, APP_ID, UNITS).list
     }
