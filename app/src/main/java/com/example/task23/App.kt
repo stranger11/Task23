@@ -3,8 +3,7 @@ package com.example.task23
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.task23.data.WeatherRepository
-import com.example.task23.data.database.WeatherDao
+import com.example.task23.data.WeatherRepositoryImpl
 import com.example.task23.data.database.WeatherDatabase
 
 class App : Application() {
@@ -12,11 +11,11 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         val weatherDao = getDatabase(applicationContext).weatherDao()
-        repository = WeatherRepository(weatherDao)
+        repositoryImpl = WeatherRepositoryImpl(weatherDao)
     }
 
     companion object {
-        lateinit var repository: WeatherRepository
+        lateinit var repositoryImpl: WeatherRepositoryImpl
         private set
         private fun getDatabase(context: Context): WeatherDatabase {
             return Room.databaseBuilder(

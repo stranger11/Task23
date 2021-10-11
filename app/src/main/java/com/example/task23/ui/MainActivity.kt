@@ -1,16 +1,11 @@
-package com.example.task23
+package com.example.task23.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.task23.App.Companion.repository
-import com.example.task23.data.WeatherRepository
+import com.example.task23.App.Companion.repositoryImpl
 import com.example.task23.databinding.ActivityMainBinding
-import com.example.task23.ui.Adapter
-import com.example.task23.ui.Weather
-import com.example.task23.ui.WeatherViewModel
-import com.example.task23.ui.WeatherViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        weatherViewModel = ViewModelProvider(this, WeatherViewModelFactory(repository))
+        weatherViewModel = ViewModelProvider(this, WeatherViewModelFactory(repositoryImpl))
             .get(WeatherViewModel::class.java)
         initRecyclerView()
         observeWeather()
