@@ -1,5 +1,6 @@
 package com.example.task23.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -32,8 +33,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = Adapter()
+        adapter = Adapter{ city, date, temp ->
+            sendData(city, date, temp)
+        }
         binding.recyclerView.adapter = adapter
+    }
+
+    private fun sendData(
+        city : String,
+        date: String,
+        temp: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            val dataArray = arrayListOf(city, date, temp)
+            putExtra(Intent.EXTRA_TEXT, dataArray.toString())
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }
 
