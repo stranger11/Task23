@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.task23.R
+import com.example.task23.ui.model.WeatherUI
 
 private const val MY_TEMP = 15
 
-class Adapter : ListAdapter<Weather,
+class Adapter : ListAdapter<WeatherUI,
         RecyclerView.ViewHolder>(ContactItemDiffCallback) {
 
     companion object {
@@ -62,7 +63,7 @@ class ViewHolderCold(view: View) : RecyclerView.ViewHolder(view) {
     private var date: TextView = view.findViewById(R.id.date_cold)
     private var icon: ImageView = view.findViewById(R.id.icon_cold)
 
-    fun bind(item: Weather) {
+    fun bind(item: WeatherUI) {
         temperature.text = temperature.context.getString(R.string.degree_celsius, item.temp)
         pressure.text = item.pressure.toString()
         date.text = item.date
@@ -83,7 +84,7 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     private var date: TextView = view.findViewById(R.id.date_hot)
     private var icon: ImageView = view.findViewById(R.id.icon_hot)
 
-    fun bind(item: Weather) {
+    fun bind(item: WeatherUI) {
         temperature.text = temperature.context.getString(R.string.degree_celsius, item.temp)
         pressure.text = item.pressure.toString()
         date.text = item.date
@@ -98,12 +99,14 @@ class ViewHolderHot(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
-object ContactItemDiffCallback : DiffUtil.ItemCallback<Weather>() {
-    override fun areItemsTheSame(oldItem: Weather,
-                                 newItem: Weather)
+object ContactItemDiffCallback : DiffUtil.ItemCallback<WeatherUI>() {
+    override fun areItemsTheSame(oldItem: WeatherUI,
+                                 newItem: WeatherUI
+    )
             : Boolean = oldItem == newItem
 
-    override fun areContentsTheSame(oldItem: Weather,
-                                    newItem: Weather)
+    override fun areContentsTheSame(oldItem: WeatherUI,
+                                    newItem: WeatherUI
+    )
             : Boolean = oldItem == newItem
 }
