@@ -4,7 +4,6 @@ import com.example.task23.data.database.WeatherEntity
 import com.example.task23.data.network.WeatherResponse
 import com.example.task23.domain.Weather
 
-
 internal fun WeatherEntity.toDomain(): Weather =
     Weather(
         temp = temp,
