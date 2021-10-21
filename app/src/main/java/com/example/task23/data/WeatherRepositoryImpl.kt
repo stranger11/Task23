@@ -9,7 +9,7 @@ import java.lang.Exception
 class WeatherRepositoryImpl(private val weatherDao: WeatherDao) : WeatherRepository {
 
     private suspend fun getWeatherDatabase() : WeatherData =
-        WeatherData.WeatherDatabase(weatherDao.getData().map {
+        WeatherData.Storage(weatherDao.getData().map {
         it.toDomain()
     })
 
@@ -21,7 +21,7 @@ class WeatherRepositoryImpl(private val weatherDao: WeatherDao) : WeatherReposit
         return try {
             val weather = loadWeather()
             updateDatabase(weather)
-            WeatherData.WeatherNetwork(weather.map { it.toDomain() })
+            WeatherData.Network(weather.map { it.toDomain() })
         } catch (e : Exception) {
             getWeatherDatabase()
         }

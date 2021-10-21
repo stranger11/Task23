@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView()
         observeWeather()
 
-        weatherViewModel.event.observe(this, {
+        weatherViewModel.eventErrorNetwork.observe(this, {
             it.getContentIfNotHandled()?.let {
                 showSnackbar()
             }
