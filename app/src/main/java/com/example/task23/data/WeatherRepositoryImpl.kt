@@ -21,7 +21,7 @@ class WeatherRepositoryImpl(private val weatherDao: WeatherDao) : WeatherReposit
         return try {
             val weather = loadWeather()
             updateDatabase(weather)
-            WeatherData.Network(weather.map { it.toDomain() })
+            WeatherData.Network(weather.toDomain())
         } catch (e : Exception) {
             getWeatherDatabase()
         }
