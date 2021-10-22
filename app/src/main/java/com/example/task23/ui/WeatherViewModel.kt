@@ -14,8 +14,8 @@ class WeatherViewModel(repositoryImpl : WeatherRepositoryImpl) : ViewModel() {
         MutableLiveData<List<WeatherUI>>()
     val weathers: LiveData<List<WeatherUI>> = _weathers
     private val repository = repositoryImpl
-    private val _eventErrorNetwork: MutableLiveData<Event<Unit>> = MutableLiveData<Event<Unit>>()
-    val showSnackbar: LiveData<Event<Unit>> = _eventErrorNetwork
+    private val _showSnackbar: MutableLiveData<Event<Unit>> = MutableLiveData<Event<Unit>>()
+    val showSnackbar: LiveData<Event<Unit>> = _showSnackbar
 
     init {
         getCurrentData()
@@ -27,7 +27,7 @@ class WeatherViewModel(repositoryImpl : WeatherRepositoryImpl) : ViewModel() {
                 is WeatherData.Storage -> {
                     withContext(Dispatchers.Main) {
                         _weathers.value = weatherData.weather.toUI()
-                        _eventErrorNetwork.value = Event(Unit)
+                        _showSnackbar.value = Event(Unit)
                     }
                 }
                 is WeatherData.Network -> {
