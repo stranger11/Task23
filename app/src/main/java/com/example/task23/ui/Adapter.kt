@@ -13,7 +13,7 @@ import com.example.task23.R
 import com.example.task23.data.CITY_NAME
 import com.example.task23.ui.model.WeatherUI
 
-private const val MY_TEMP = 15
+private const val MY_TEMP = 5
 
 class Adapter(private val onClick: (String, String, String) -> Unit)
     : ListAdapter<WeatherUI,

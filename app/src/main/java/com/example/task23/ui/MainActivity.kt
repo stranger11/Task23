@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task23.App.Companion.repositoryImpl
+import com.example.task23.R
 import com.example.task23.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,12 @@ class MainActivity : AppCompatActivity() {
             .get(WeatherViewModel::class.java)
         initRecyclerView()
         observeWeather()
+
+        weatherViewModel.showSnackbar.observe(this, {
+            it.getContentIfNotHandled()?.let {
+                showSnackbar()
+            }
+        })
     }
 
     private fun observeWeather() {
@@ -53,5 +61,15 @@ class MainActivity : AppCompatActivity() {
         val shareIntent = Intent.createChooser(sendIntent, null)
         startActivity(shareIntent)
     }
+
+    private fun showSnackbar() {
+        val snackbar = Snackbar.make(
+            binding.root,
+            R.string.from_database,
+            Snackbar.LENGTH_LONG)
+        snackbar.show()
+    }
 }
+
+
 

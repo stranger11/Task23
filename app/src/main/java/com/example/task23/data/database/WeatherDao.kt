@@ -1,9 +1,6 @@
 package com.example.task23.data.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface WeatherDao {
@@ -13,4 +10,13 @@ interface WeatherDao {
 
     @Query("SELECT * FROM WeatherEntity")
     suspend fun getData(): List<WeatherEntity>
+
+    @Query("DELETE FROM WeatherEntity")
+    suspend fun deleteWeather()
+
+    @Transaction
+    suspend fun updateWeather(weathers: List<WeatherEntity>) {
+        deleteWeather()
+        insertWeather(weathers)
+    }
 }
